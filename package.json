@@ -1,0 +1,27 @@
+{
+  "name": "planetarybrowser",
+  "version": "0.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "IPFS",
+    "browser",
+    "p2p",
+    "libp2p"
+  ],
+  "author": "Alan Shaw",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^8.1.1",
+    "standard": "^14.3.3"
+  },
+  "dependencies": {
+    "ipfs": "^0.41.2",
+    "it-pipe": "^1.1.0",
+    "it-to-stream": "^0.1.1"
+  }
+}

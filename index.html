@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <title>Planetary Browser</title>
+  <link rel="stylesheet" href="css/tachyons.min.css">
+</head>
+<body>
+  <div>
+    <form id="navbar">
+      <input class="search" placeholder="/ipfs/QmHash or ipfs://QmHash or http(s)://regular.url" />
+    </form>
+  </div>
+  <div id="webview"></div>
+  <script src="./renderer.js"></script>
+</body>
+</html>
