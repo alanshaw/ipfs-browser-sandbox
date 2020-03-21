@@ -1,8 +1,8 @@
-const Electron = require('electron')
-const { BrowserWindow } = require('electron')
-const Path = require('path')
-const IPFS = require('ipfs')
-const Protocol = require('./protocol')
+import Electron, { BrowserWindow } from 'electron'
+import Path from 'path'
+import IPFS from 'ipfs'
+import * as Protocol from './protocol'
+import OS from 'os'
 
 function createWindow () {
   // Create the browser window.
@@ -15,11 +15,13 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('lib/index.html')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
+
+Electron.app.allowRendererProcessReuse = true
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -55,12 +57,12 @@ Electron.protocol.registerSchemesAsPrivileged([{
 
 async function onReady () {
   // TODO: add delegates
-  const ipfs = await IPFS.create()
+  const ipfs = await IPFS.create({
+    repo: Path.join(OS.homedir(), '.planetary')
+  })
   const protocol = await Protocol.create({ ipfs })
 
-  Electron.protocol.registerStreamProtocol('ipfs', protocol.handler, err => {
-    if (err) throw Object.assign(err, { message: `failed to register ipfs:// protocol: ${err.message}` })
-  })
+  Electron.protocol.registerStreamProtocol('ipfs', protocol.handler)
 
   createWindow()
 }

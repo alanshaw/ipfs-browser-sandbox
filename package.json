@@ -1,11 +1,18 @@
 {
   "name": "planetarybrowser",
   "version": "0.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "An experimental p2p browser built on IPFS",
+  "main": "lib/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "run-s build:*",
+    "build:js": "babel src -d lib",
+    "build:copy": "run-p build:copy:*",
+    "build:copy:css": "cp -R ./src/css ./lib/css",
+    "build:copy:html": "cp ./src/index.html ./lib/index.html",
+    "watch": "run-p watch:*",
+    "watch:js": "npm run build:js -- --watch"
   },
   "keywords": [
     "IPFS",
@@ -15,13 +22,17 @@
   ],
   "author": "Alan Shaw",
   "license": "MIT",
-  "devDependencies": {
-    "electron": "^8.1.1",
-    "standard": "^14.3.3"
-  },
   "dependencies": {
     "ipfs": "^0.41.2",
     "it-pipe": "^1.1.0",
     "it-to-stream": "^0.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "electron": "^8.1.1",
+    "npm-run-all": "^4.1.5",
+    "standard": "^14.3.3"
   }
 }

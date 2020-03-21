@@ -1,6 +1,6 @@
-const toStream = require('it-to-stream')
+import toStream from 'it-to-stream'
 
-exports.create = async ipfs => {
+async function create (ipfs) {
   return {
     handler (request, respond) {
       const path = request.url.replace(/^ipfs:\/\//, '/ipfs/')
@@ -11,3 +11,5 @@ exports.create = async ipfs => {
     }
   }
 }
+
+export { create }
