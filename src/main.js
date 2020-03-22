@@ -7,8 +7,8 @@ import OS from 'os'
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    titleBarStyle: 'hiddenInset',
+    ...getWindowSizeAndPosition(),
     webPreferences: {
       preload: Path.join(__dirname, 'preload.js')
     }
@@ -19,6 +19,20 @@ function createWindow () {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+}
+
+function getWindowSizeAndPosition () {
+  const { bounds } = Electron.screen.getPrimaryDisplay()
+  const width = Math.max(800, Math.min(1800, bounds.width - 200))
+  const height = Math.max(600, Math.min(1200, bounds.height - 100))
+  return {
+    x: (bounds.width - width) / 2,
+    y: (bounds.height - height) / 2,
+    width,
+    height,
+    minWidth: 400,
+    minHeight: 300
+  }
 }
 
 Electron.app.allowRendererProcessReuse = true
