@@ -1,17 +1,15 @@
-const { webFrame } = require('electron')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import App from './ui/App'
+import store from './ui/redux/store'
+import { openTab } from './ui/redux/slices/tabs'
 
-// Register scheme:
-// https://github.com/beakerbrowser/beaker/blob/3809181032140f03a42d876dd63119b0b5d73e8a/app/background-process.js#L61
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
 
-// Handler:
-// https://github.com/beakerbrowser/beaker-core/blob/master/dat/protocol.js#L42
-
-function createWebviewEl (id, url) {
-  var el = document.createElement('webview')
-  el.dataset.id = id
-  // el.setAttribute('preload', 'file://' + path.join(APP_PATH, 'webview-preload.build.js'))
-  el.setAttribute('enableremotemodule', 'false')
-  el.setAttribute('webpreferences', 'allowDisplayingInsecureContent,defaultEncoding=utf-8,scrollBounce,nativeWindowOpen=yes')
-  el.setAttribute('src', url)
-  return el
-}
+store.dispatch(openTab())
