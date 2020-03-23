@@ -5,11 +5,15 @@ import { Page } from './Page'
 
 function App () {
   return (
-    <>
-      <Tabs />
-      <Toolbar />
-      <Page />
-    </>
+    <div className='flex flex-column vh-100'>
+      <div className='flex-none'>
+        <Tabs />
+        <Toolbar />
+      </div>
+      <div>
+        <Page />
+      </div>
+    </div>
   )
 }
 
