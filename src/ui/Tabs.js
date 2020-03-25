@@ -14,7 +14,7 @@ export function Tabs () {
   const dispatch = useDispatch()
 
   return (
-    <div className='bg-navy' style={{ paddingLeft: 78 }}>
+    <div className='bg-charcoal' style={{ paddingLeft: 78 }}>
       <div className='flex'>
         <ul className='flex list mv0 pl0'>
           {tabs.map((t, i) => (
@@ -24,9 +24,9 @@ export function Tabs () {
               className={`bt bw1 ${t.id === selectedTabId ? 'bg-snow b--aqua' : 'b--white-10'}`}
             >
               <div className={`pv2 ph3 br ${t.id === selectedTabId ? 'b--snow' : 'b--white-10'} ${i === 0 ? 'bl' : ''}`}>
-                <span className={`f7 ${t.id === selectedTabId ? '' : 'snow'}`}>{t.title}</span>
+                <span className={`f7 mr2 ${t.id === selectedTabId ? '' : 'snow'}`}>{t.title}</span>
                 <button
-                  className={`input-reset bw0 bg-transparent b ${t.id === selectedTabId ? '' : 'snow'}`}
+                  className={`input-reset pa0 lh-title f6 bw0 br1 bg-transparent ${t.id === selectedTabId ? 'hover-bg-black-10' : 'hover-bg-white-10 snow'}`}
                   onClick={() => dispatch(closeTab({ id: t.id }))}
                 >
                   ｘ
@@ -35,9 +35,9 @@ export function Tabs () {
             </li>
           ))}
         </ul>
-        <div className='pa2'>
+        <div className='ph2 pv1 flex flex-column justify-center'>
           <button
-            className='input-reset bg-white-10 bw0 white-50 hover-bg-white-20 br1 f4'
+            className='input-reset ph1 pv0 bg-white-10 bw0 white-50 hover-bg-white-20 br1 f4'
             onClick={() => dispatch(openTab())}
           >
             +
