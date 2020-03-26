@@ -37,7 +37,7 @@ export function Tabs () {
         </ul>
         <div className='ph2 pv1 flex flex-column justify-center'>
           <button
-            className='input-reset ph1 pv0 bg-white-10 bw0 white-50 hover-bg-white-20 br1 f4'
+            className='input-reset ph1 pv0 bg-white-10 bw0 white-50 hover-bg-white-20 br1 f4 outline-0'
             onClick={() => dispatch(openTab())}
           >
             +

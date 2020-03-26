@@ -29,9 +29,17 @@
   "license": "MIT",
   "dependencies": {
     "@reduxjs/toolkit": "^1.2.5",
+    "buffer": "^5.5.0",
+    "cids": "^0.8.0",
+    "file-type": "^14.1.4",
     "ipfs": "^0.41.2",
+    "ipfs-unixfs": "^1.0.0",
+    "is-ipfs": "^0.6.3",
+    "it-buffer": "^0.1.2",
     "it-pipe": "^1.1.0",
+    "it-reader": "^2.1.0",
     "it-to-stream": "^0.1.1",
+    "mime-types": "^2.1.26",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0"

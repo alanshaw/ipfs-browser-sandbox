@@ -12,7 +12,7 @@ export function Page () {
     <div className='h-100' style={{ background: 'white url(images/logo-watermark.png) no-repeat center', backgroundSize: '256px' }}>
       {tab.url ? (
         <webview
-          className='h-100 flex'
+          className='bg-white h-100 flex'
           enableremotemodule='false'
           webpreferences='allowDisplayingInsecureContent,defaultEncoding=utf-8,scrollBounce,nativeWindowOpen=yes'
           autosize='on'
