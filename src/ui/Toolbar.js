@@ -1,10 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  setTabSearch,
-  setTabUrl,
-  selectSelectedTab
-} from './redux/slices/tabs'
+import { setTabSearch, setTabUrl, selectSelectedTab } from './redux/slices/tabs'
 import isIpfs from 'is-ipfs'
 import CID from 'cids'
 
@@ -33,6 +29,7 @@ export function Toolbar () {
         url = tab.search
       } catch (err) {
         try {
+          if (!tab.search.includes('.')) throw new Error('probably not a HTTPS URL')
           url = search = new URL(`https://${tab.search}`).toString()
         } catch (err) {
           // TODO: custom search engine

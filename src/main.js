@@ -73,7 +73,15 @@ Electron.protocol.registerSchemesAsPrivileged([{
 async function onReady () {
   // TODO: add delegates
   const ipfs = await IPFS.create({
-    repo: Path.join(OS.homedir(), '.planetary')
+    repo: Path.join(OS.homedir(), '.planetary'),
+    config: {
+      Addresses: {
+        Swarm: [
+          '/ip4/0.0.0.0/tcp/0',
+          '/ip4/0.0.0.0/tcp/0/ws'
+        ]
+      }
+    }
   })
   const protocol = await Protocol.create({ ipfs })
 

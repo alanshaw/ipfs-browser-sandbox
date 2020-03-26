@@ -1,40 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import {
-  selectSelectedTab
-} from './redux/slices/tabs'
+import { selectTabList, selectSelectedTabId } from './redux/slices/tabs'
+import WebView from './WebView'
 
 export function Page () {
-  const tab = useSelector(selectSelectedTab)
-  if (!tab) return null
+  const tabs = useSelector(selectTabList)
+  const selectedTabId = useSelector(selectSelectedTabId)
 
   return (
     <div className='h-100' style={{ background: 'white url(images/logo-watermark.png) no-repeat center', backgroundSize: '256px' }}>
-      {tab.url ? (
-        <webview
-          className='bg-white h-100 flex'
-          enableremotemodule='false'
-          webpreferences='allowDisplayingInsecureContent,defaultEncoding=utf-8,scrollBounce,nativeWindowOpen=yes'
-          autosize='on'
-          src={tab.url}
-        />
-      ) : null}
+      {tabs.map(t => (
+        <div key={t.id} className={`h-100 ${t.id === selectedTabId ? '' : 'dn'}`}>
+          <WebView tabId={t.id} url={t.url} />
+        </div>
+      ))}
     </div>
   )
 }
-
-// Register scheme:
-// https://github.com/beakerbrowser/beaker/blob/3809181032140f03a42d876dd63119b0b5d73e8a/app/background-process.js#L61
-
-// Handler:
-// https://github.com/beakerbrowser/beaker-core/blob/master/dat/protocol.js#L42
-
-// function createWebviewEl (id, url) {
-//   var el = document.createElement('webview')
-//   el.dataset.id = id
-//   // el.setAttribute('preload', 'file://' + path.join(APP_PATH, 'webview-preload.build.js'))
-//   el.setAttribute('enableremotemodule', 'false')
-//   el.setAttribute('webpreferences', 'allowDisplayingInsecureContent,defaultEncoding=utf-8,scrollBounce,nativeWindowOpen=yes')
-//   el.setAttribute('src', url)
-//   return el
-// }
