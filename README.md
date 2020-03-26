@@ -1,6 +1,5 @@
-<img src="assets/logo-1024w.png" width="128" />
-
-# Planetary Browser (EXPERIMENTAL)
+<p align="center"><img src="assets/logo-1024w.png" width="128" /></p>
+<h1 align="center">Planetary Browser (EXPERIMENTAL)</h1>
 
 > An experimental p2p browser built on IPFS
 
