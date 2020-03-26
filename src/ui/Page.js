@@ -1,5 +1,26 @@
+import React from 'react'
+import { useSelector } from 'react-redux'
+import {
+  selectSelectedTab
+} from './redux/slices/tabs'
+
 export function Page () {
-  return null
+  const tab = useSelector(selectSelectedTab)
+  if (!tab) return null
+
+  return (
+    <div className='bg-white h-100'>
+      {tab.url ? (
+        <webview
+          className='h-100 flex'
+          enableremotemodule='false'
+          webpreferences='allowDisplayingInsecureContent,defaultEncoding=utf-8,scrollBounce,nativeWindowOpen=yes'
+          autosize='on'
+          src={tab.url}
+        />
+      ) : null}
+    </div>
+  )
 }
 
 // Register scheme:

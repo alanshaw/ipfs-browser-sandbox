@@ -10,7 +10,7 @@ function App () {
         <Tabs />
         <Toolbar />
       </div>
-      <div>
+      <div className='flex-auto'>
         <Page />
       </div>
     </div>

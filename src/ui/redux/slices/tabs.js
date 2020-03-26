@@ -11,7 +11,12 @@ export const slice = createSlice({
   reducers: {
     openTab: state => {
       state.selectedTabId = tabId++
-      state.list = state.list.concat({ id: state.selectedTabId, title: 'New Tab', url: null })
+      state.list = state.list.concat({
+        id: state.selectedTabId,
+        title: 'New Tab',
+        url: null,
+        search: null
+      })
     },
     closeTab: (state, action) => {
       const closingTab = state.list.find(t => t.id === action.payload.id)
@@ -27,14 +32,19 @@ export const slice = createSlice({
       }
     },
     setTabTitle: (state, action) => {
-      const index = state.list.findIndex(t => t.id === action.payload.id)
+      const index = state.list.findIndex(t => t.id === action.payload.tabId)
       if (index === -1) return
-      state.list[index] = { ...state.list[index], title: action.payload.title }
+      state.list[index] = { ...state.list[index], title: action.payload.value }
     },
-    setTabURL: (state, action) => {
-      const index = state.list.findIndex(t => t.id === action.payload.id)
+    setTabSearch: (state, action) => {
+      const index = state.list.findIndex(t => t.id === action.payload.tabId)
       if (index === -1) return
-      state.list[index] = { ...state.list[index], url: action.payload.url }
+      state.list[index] = { ...state.list[index], search: action.payload.value }
+    },
+    setTabUrl: (state, action) => {
+      const index = state.list.findIndex(t => t.id === action.payload.tabId)
+      if (index === -1) return
+      state.list[index] = { ...state.list[index], url: action.payload.value }
     },
     changeSelectedTab: (state, action) => {
       if (!state.list.some(t => t.id === action.payload.id)) return
@@ -43,9 +53,10 @@ export const slice = createSlice({
   }
 })
 
-export const { openTab, closeTab, setTabTitle, setTabURL, changeSelectedTab } = slice.actions
+export const { openTab, closeTab, setTabTitle, setTabSearch, setTabUrl, changeSelectedTab } = slice.actions
 
 export const selectTabList = state => state.tabs.list
+export const selectSelectedTab = state => state.tabs.list.find(t => t.id === state.tabs.selectedTabId)
 export const selectSelectedTabId = state => state.tabs.selectedTabId
 
 export default slice.reducer

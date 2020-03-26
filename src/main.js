@@ -10,7 +10,8 @@ function createWindow () {
     titleBarStyle: 'hiddenInset',
     ...getWindowSizeAndPosition(),
     webPreferences: {
-      preload: Path.join(__dirname, 'preload.js')
+      preload: Path.join(__dirname, 'preload.js'),
+      webviewTag: true
     }
   })
 
