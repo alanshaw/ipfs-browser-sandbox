@@ -12,6 +12,7 @@
     "build:copy": "run-p build:copy:*",
     "build:copy:css": "cp -R src/css lib",
     "build:copy:fonts": "cp -R src/fonts lib",
+    "build:copy:images": "cp -R src/images lib",
     "build:copy:html": "cp src/index.html lib/index.html",
     "watch": "run-p watch:*",
     "watch:js": "npm run build:js -- --watch",

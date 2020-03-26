@@ -9,7 +9,7 @@ export function Page () {
   if (!tab) return null
 
   return (
-    <div className='bg-white h-100'>
+    <div className='h-100' style={{ background: 'white url(images/logo-watermark.png) no-repeat center', backgroundSize: '256px' }}>
       {tab.url ? (
         <webview
           className='h-100 flex'
