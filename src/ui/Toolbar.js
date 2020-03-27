@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setTabSearch, setTabUrl, selectSelectedTab } from './redux/slices/tabs'
 import isIpfs from 'is-ipfs'
 import CID from 'cids'
+import BackButton from './BackButton'
 
 export function Toolbar () {
   const tab = useSelector(selectSelectedTab)
@@ -58,6 +59,9 @@ export function Toolbar () {
 
   return (
     <form onSubmit={onSubmit} className='pa2 flex bb b--gray'>
+      <span className='mr2'>
+        <BackButton />
+      </span>
       <input
         className='input-reset bg-white-90 ba b--gray pa2 br2 db f6 w-100 outline-0'
         style={{ boxShadow: '2px 2px 4px 0 rgba(0,0,0,.06)' }}

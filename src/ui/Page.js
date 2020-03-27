@@ -11,7 +11,7 @@ export function Page () {
     <div className='h-100' style={{ background: 'white url(images/logo-watermark.png) no-repeat center', backgroundSize: '256px' }}>
       {tabs.map(t => (
         <div key={t.id} className={`h-100 ${t.id === selectedTabId ? '' : 'dn'}`}>
-          <WebView tabId={t.id} url={t.url} />
+          <WebView tab={t} url={t.url} />
         </div>
       ))}
     </div>

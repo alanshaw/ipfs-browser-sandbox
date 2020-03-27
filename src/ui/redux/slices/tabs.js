@@ -15,7 +15,12 @@ export const slice = createSlice({
         id: state.selectedTabId,
         title: 'New Tab',
         url: null,
-        search: null
+        search: null,
+        canGoBack: false,
+        canGoForward: false,
+        wentBackAt: null,
+        wentForwardAt: null,
+        reloadedAt: null
       })
     },
     closeTab: (state, action) => {
@@ -30,6 +35,25 @@ export const slice = createSlice({
         const newSelectedTabIndex = Math.min(selectedTabIndex, state.list.length - 1)
         state.selectedTabId = state.list.length ? state.list[newSelectedTabIndex].id : null
       }
+    },
+    goBack: (state, action) => {
+      const { tabId } = action.payload
+      state.list = state.list.map(t => t.id === tabId ? { ...t, wentBackAt: Date.now() } : t)
+    },
+    setCanGoBack: (state, action) => {
+      const { tabId, value } = action.payload
+      state.list = state.list.map(t => t.id === tabId ? { ...t, canGoBack: value } : t)
+    },
+    goForward: (state, action) => {
+      state.list = state.list.map(t => t.id === action.payload.tabId ? { ...t, wentForwardAt: Date.now() } : t)
+    },
+    setCanGoForward: (state, action) => {
+      const { tabId, value } = action.payload
+      state.list = state.list.map(t => t.id === tabId ? { ...t, canGoForward: value } : t)
+    },
+    reload: (state, action) => {
+      const { tabId } = action.payload
+      state.list = state.list.map(t => t.id === tabId ? { ...t, reloadedAt: Date.now() } : t)
     },
     setTabTitle: (state, action) => {
       const index = state.list.findIndex(t => t.id === action.payload.tabId)
@@ -53,7 +77,19 @@ export const slice = createSlice({
   }
 })
 
-export const { openTab, closeTab, setTabTitle, setTabSearch, setTabUrl, changeSelectedTab } = slice.actions
+export const {
+  openTab,
+  closeTab,
+  goBack,
+  setCanGoBack,
+  goForward,
+  setCanGoForward,
+  reload,
+  setTabTitle,
+  setTabSearch,
+  setTabUrl,
+  changeSelectedTab
+} = slice.actions
 
 export const selectTabList = state => state.tabs.list
 export const selectSelectedTab = state => state.tabs.list.find(t => t.id === state.tabs.selectedTabId)

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setTabTitle, setTabSearch } from './redux/slices/tabs'
+import { setTabTitle, setTabSearch, setCanGoBack } from './redux/slices/tabs'
 
 export class WebView extends Component {
   shouldComponentUpdate (nextProps) {
-    if (!this.props.url && nextProps.url) return true
+    if (!this.props.tab.url && nextProps.tab.url) return true
 
     if (this.ref) {
-      if (this.props.url !== nextProps.url) {
-        this.ref.loadURL(nextProps.url)
+      if (this.props.tab.url !== nextProps.tab.url) {
+        this.ref.loadURL(nextProps.tab.url)
+      }
+      if (nextProps.tab.wentBackAt && this.props.tab.wentBackAt < nextProps.tab.wentBackAt) {
+        this.ref.goBack()
       }
     }
 
@@ -20,10 +23,13 @@ export class WebView extends Component {
 
     if (ref) {
       ref.addEventListener('page-title-updated', e => {
-        this.props.dispatch(setTabTitle({ tabId: this.props.tabId, value: e.title }))
+        this.props.dispatch(setTabTitle({ tabId: this.props.tab.id, value: e.title }))
       })
       ref.addEventListener('will-navigate', e => {
-        this.props.dispatch(setTabSearch({ tabId: this.props.tabId, value: e.url }))
+        this.props.dispatch(setTabSearch({ tabId: this.props.tab.id, value: e.url }))
+      })
+      ref.addEventListener('did-stop-loading', e => {
+        this.props.dispatch(setCanGoBack({ tabId: this.props.tab.id, value: ref.canGoBack() }))
       })
     }
   }
