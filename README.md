@@ -12,7 +12,8 @@
 There are currently no binaries available for download. You must build the project from source. Good news though, it's easy!
 
 ```console
-git clone https://github.com/alanshaw/planetarybrowser.git && cd planetarybrowser
+git clone https://github.com/alanshaw/planetarybrowser.git
+cd planetarybrowser
 npm install
 npm run build
 npm start
@@ -26,7 +27,7 @@ It's a browser, you know what to do...but wait! It also allows you to browse the
 
 There's a watch script that'll watch all the JS files and re-build them when you make changes:
 
-```js
+```console
 npm run watch
 ```
 
