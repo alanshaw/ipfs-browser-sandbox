@@ -3,6 +3,7 @@ import Path from 'path'
 import IPFS from 'ipfs'
 import * as Protocol from './protocol'
 import OS from 'os'
+import Package from './package.json'
 
 function createWindow () {
   // Create the browser window.
@@ -73,7 +74,7 @@ Electron.protocol.registerSchemesAsPrivileged([{
 async function onReady () {
   // TODO: add delegates
   const ipfs = await IPFS.create({
-    repo: Path.join(OS.homedir(), '.planetary'),
+    repo: Path.join(OS.homedir(), `.${Package.name}`),
     config: {
       Addresses: {
         Swarm: [
