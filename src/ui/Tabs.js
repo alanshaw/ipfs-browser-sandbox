@@ -14,7 +14,7 @@ export function Tabs () {
   const dispatch = useDispatch()
 
   return (
-    <div className='bg-charcoal' style={{ paddingLeft: 78 }}>
+    <div className='bg-charcoal' style={{ paddingLeft: 78, '-webkit-app-region': 'drag' }}>
       <div className='flex'>
         <div className='flex flex-auto'>
           <ul className='flex list mv0 pl0'>
@@ -23,6 +23,7 @@ export function Tabs () {
                 key={t.id}
                 onClick={() => dispatch(changeSelectedTab({ id: t.id }))}
                 className={`bt bw1 ${t.id === selectedTabId ? 'bg-snow b--aqua' : 'hover-bg-white-10 b--white-10'}`}
+                style={{ '-webkit-app-region': 'no-drag' }}
               >
                 <div className={`pv2 ph3 br ${t.id === selectedTabId ? 'b--snow' : 'b--white-10'} ${i === 0 ? 'bl' : ''}`}>
                   <span className={`f7 mr2 ${t.id === selectedTabId ? '' : 'snow'}`}>{t.title}</span>
@@ -39,6 +40,7 @@ export function Tabs () {
           <div className='ph2 pv1 flex flex-column justify-center'>
             <button
               className='input-reset ph1 pv0 bg-white-10 bw0 white-50 hover-bg-white-20 br1 f4 outline-0'
+              style={{ '-webkit-app-region': 'no-drag' }}
               onClick={() => dispatch(openTab())}
             >
               +

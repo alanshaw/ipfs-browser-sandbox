@@ -3,7 +3,7 @@ import Path from 'path'
 import IPFS from 'ipfs'
 import * as Protocol from './protocol'
 import OS from 'os'
-import Package from './package.json'
+import Package from '../package.json'
 
 function createWindow () {
   // Create the browser window.
