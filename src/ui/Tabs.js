@@ -8,10 +8,14 @@ import {
   selectSelectedTabId
 } from './redux/slices/tabs'
 
+const TabWidths = [200, 200, 175, 125, 100, 50, 50]
+const MIN_TAB_WIDTH = 10
+
 export function Tabs () {
   const tabs = useSelector(selectTabList)
   const selectedTabId = useSelector(selectSelectedTabId)
   const dispatch = useDispatch()
+  const width = TabWidths[tabs.length - 1] || MIN_TAB_WIDTH
 
   return (
     <div className='bg-charcoal' style={{ paddingLeft: 78, '-webkit-app-region': 'drag' }}>
@@ -25,14 +29,21 @@ export function Tabs () {
                 className={`bt bw1 ${t.id === selectedTabId ? 'bg-snow b--aqua' : 'hover-bg-white-10 b--white-10'}`}
                 style={{ '-webkit-app-region': 'no-drag' }}
               >
-                <div className={`pv2 ph3 br ${t.id === selectedTabId ? 'b--snow' : 'b--white-10'} ${i === 0 ? 'bl' : ''}`}>
-                  <span className={`f7 mr2 ${t.id === selectedTabId ? '' : 'snow'}`}>{t.title}</span>
-                  <button
-                    className={`input-reset pa0 lh-title f6 bw0 br1 bg-transparent ${t.id === selectedTabId ? 'hover-bg-black-10' : 'hover-bg-white-10 snow'}`}
-                    onClick={() => dispatch(closeTab({ id: t.id }))}
+                <div className={`pv2 ph3 br nowrap ${t.id === selectedTabId ? 'b--snow' : 'b--white-10'} ${i === 0 ? 'bl' : ''}`}>
+                  <span
+                    className={`dib v-mid f7 mr2 ${t.id === selectedTabId ? '' : 'snow'} truncate`}
+                    style={{ width, transition: 'width .3s ease-out' }}
                   >
-                    ｘ
-                  </button>
+                    {t.title}
+                  </span>
+                  {tabs.length > 1 ? (
+                    <button
+                      className={`input-reset pa0 lh-title f6 bw0 br1 bg-transparent ${t.id === selectedTabId ? 'hover-bg-black-10' : 'hover-bg-white-10 snow'}`}
+                      onClick={() => dispatch(closeTab({ id: t.id }))}
+                    >
+                      ｘ
+                    </button>
+                  ) : null}
                 </div>
               </li>
             ))}
