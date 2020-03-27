@@ -1,15 +1,17 @@
 <p align="center"><img src="assets/logo-1024w.png" width="128" /></p>
-<h1 align="center">Planetary Browser (EXPERIMENTAL)</h1>
+<h1 align="center">IPFS Browser Sandbox</h1>
 
-> An experimental p2p browser built on IPFS
+> An EXPERIMENTAL p2p browser built on IPFS
 
 ### ⚠️ Reference Use Only! ⚠️
 
-**The Planetary Browser is not a product intended to ship to end users.**  
-Instead it is a Technology Preview for how [IPFS](https://ipfs.io)/[IPLD](https://ipld.io/) resources could be represented in web browser components.
+**The IPFS Browser Sandbox is not a product intended to ship to end users.**  
 
-It is here for demos, experimentation and fun times.  
-It is _not secure_ and may be partly or entirely broken. Use at your own risk.
+It is a Technology Preview for how [IPFS](https://ipfs.io)/[IPLD](https://ipld.io/) resources could be represented in web browser components.
+
+It is here for demos, experimentation and fun times.
+
+It's also **not secure** and may be partly or entirely broken. Use at your own risk.
 
 <img alt="Screenshot 2020-03-26 at 23 09 11" src="https://user-images.githubusercontent.com/152863/77705175-e4b4b300-6fb6-11ea-90a1-972c3c53b162.png">
 
@@ -18,8 +20,8 @@ It is _not secure_ and may be partly or entirely broken. Use at your own risk.
 There are currently no binaries available for download. You must build the project from source. Good news though, it's easy!
 
 ```console
-git clone https://github.com/alanshaw/planetarybrowser.git
-cd planetarybrowser
+git clone https://github.com/alanshaw/ipfs-browser-sandbox.git
+cd ipfs-browser-sandbox
 npm install
 npm run build
 npm start
@@ -39,7 +41,7 @@ npm run watch
 
 ## Contribute
 
-Feel free to dive in! [Open an issue](https://github.com/alanshaw/planetarybrowser/issues/new) or submit PRs.
+Feel free to dive in! [Open an issue](https://github.com/alanshaw/ipfs-browser-sandbox/issues/new) or submit PRs.
 
 ## License
 
