@@ -3,7 +3,13 @@
 
 > An experimental p2p browser built on IPFS
 
-⚠️ This project is experimental! It is _not secure_ and may be partly or entirely broken. Use at your own risk. It is here for demos, experimentation and fun times.
+### ⚠️ Reference Use Only! ⚠️
+
+**The Planetary Browser is not a product intended to ship to end users.**  
+Instead it is a Technology Preview for how [IPFS](https://ipfs.io)/[IPLD](https://ipld.io/) resources could be represented in web browser components.
+
+It is here for demos, experimentation and fun times.  
+It is _not secure_ and may be partly or entirely broken. Use at your own risk.
 
 <img alt="Screenshot 2020-03-26 at 23 09 11" src="https://user-images.githubusercontent.com/152863/77705175-e4b4b300-6fb6-11ea-90a1-972c3c53b162.png">
 
