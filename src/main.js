@@ -84,6 +84,12 @@ async function onReady () {
       }
     }
   })
+
+  Electron.ipcMain.handle('ipfs.swarm.addrs', async e => {
+    const addrs = await ipfs.swarm.addrs()
+    return addrs.map(a => ({ ...a, addrs: a.addrs.map(ma => ma.toString()) }))
+  })
+
   const protocol = await Protocol.create({ ipfs })
 
   Electron.protocol.registerStreamProtocol('ipfs', protocol.handler)

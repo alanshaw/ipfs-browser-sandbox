@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setTabSearch, setTabUrl, selectSelectedTab } from './redux/slices/tabs'
+import { selectPeersList } from './redux/slices/peers'
 import isIpfs from 'is-ipfs'
 import CID from 'cids'
 import BackButton from './BackButton'
@@ -8,6 +9,7 @@ import ForwardButton from './ForwardButton'
 
 export function Toolbar () {
   const tab = useSelector(selectSelectedTab)
+  const peers = useSelector(selectPeersList)
   const dispatch = useDispatch()
 
   if (!tab) return null
@@ -59,7 +61,7 @@ export function Toolbar () {
   }
 
   return (
-    <form onSubmit={onSubmit} className='pa2 flex bb b--gray'>
+    <form onSubmit={onSubmit} className='pa2 flex bb b--gray items-center'>
       <span className='mr1'>
         <BackButton />
       </span>
@@ -67,12 +69,15 @@ export function Toolbar () {
         <ForwardButton />
       </span>
       <input
-        className='input-reset bg-white-90 ba b--gray pa2 br2 db f6 w-100 outline-0'
+        className='input-reset bg-white-90 ba b--gray mr2 pa2 br2 db f6 w-100 outline-0'
         style={{ boxShadow: '2px 2px 4px 0 rgba(0,0,0,.06)' }}
         value={tab.search || ''}
         onChange={e => dispatch(setTabSearch({ tabId: tab.id, value: e.target.value }))}
         placeholder='Search or enter address'
       />
+      <span className='nowrap mr1'>
+        <span className='v-mid f7 charcoal'>{peers.length} <span className='charcoal-muted'>peers</span></span>
+      </span>
     </form>
   )
 }

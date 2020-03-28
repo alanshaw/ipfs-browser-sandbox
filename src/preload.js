@@ -1,12 +1,10 @@
-// All of the Node.js APIs are available in the preload process.
-// It has the same sandbox as a Chrome extension.
-window.addEventListener('DOMContentLoaded', () => {
-  const replaceText = (selector, text) => {
-    const element = document.getElementById(selector)
-    if (element) element.innerText = text
-  }
+const { ipcRenderer } = require('electron')
 
-  for (const type of ['chrome', 'node', 'electron']) {
-    replaceText(`${type}-version`, process.versions[type])
+// TODO: get https://github.com/alanshaw/it-postmsg and postmsg-fetch working
+const ipfs = {
+  swarm: {
+    addrs: () => ipcRenderer.invoke('ipfs.swarm.addrs')
   }
-})
+}
+
+global.ipfs = { enable: async () => ipfs }
