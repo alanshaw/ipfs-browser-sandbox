@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { goForward, selectSelectedTab } from './redux/slices/tabs'
 
-export default function BackButton () {
+export default function ForwardButton () {
   const tab = useSelector(selectSelectedTab)
   const dispatch = useDispatch()
 
