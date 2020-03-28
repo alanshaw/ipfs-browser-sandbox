@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setTabTitle, setTabSearch, setCanGoBack } from './redux/slices/tabs'
+import { setTabTitle, setTabSearch, setCanGoBack, setCanGoForward } from './redux/slices/tabs'
 
 export class WebView extends Component {
   shouldComponentUpdate (nextProps) {
@@ -12,6 +12,9 @@ export class WebView extends Component {
       }
       if (nextProps.tab.wentBackAt && this.props.tab.wentBackAt < nextProps.tab.wentBackAt) {
         this.ref.goBack()
+      }
+      if (nextProps.tab.wentForwardAt && this.props.tab.wentForwardAt < nextProps.tab.wentForwardAt) {
+        this.ref.goForward()
       }
     }
 
@@ -36,6 +39,7 @@ export class WebView extends Component {
       })
       ref.addEventListener('did-stop-loading', e => {
         this.props.dispatch(setCanGoBack({ tabId: this.props.tab.id, value: ref.canGoBack() }))
+        this.props.dispatch(setCanGoForward({ tabId: this.props.tab.id, value: ref.canGoForward() }))
       })
     }
   }

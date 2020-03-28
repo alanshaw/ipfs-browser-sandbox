@@ -4,6 +4,7 @@ import { setTabSearch, setTabUrl, selectSelectedTab } from './redux/slices/tabs'
 import isIpfs from 'is-ipfs'
 import CID from 'cids'
 import BackButton from './BackButton'
+import ForwardButton from './ForwardButton'
 
 export function Toolbar () {
   const tab = useSelector(selectSelectedTab)
@@ -59,8 +60,11 @@ export function Toolbar () {
 
   return (
     <form onSubmit={onSubmit} className='pa2 flex bb b--gray'>
-      <span className='mr2'>
+      <span className='mr1'>
         <BackButton />
+      </span>
+      <span className='mr2'>
+        <ForwardButton />
       </span>
       <input
         className='input-reset bg-white-90 ba b--gray pa2 br2 db f6 w-100 outline-0'
