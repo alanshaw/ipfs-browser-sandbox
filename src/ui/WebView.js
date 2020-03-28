@@ -26,7 +26,13 @@ export class WebView extends Component {
         this.props.dispatch(setTabTitle({ tabId: this.props.tab.id, value: e.title }))
       })
       ref.addEventListener('will-navigate', e => {
-        this.props.dispatch(setTabSearch({ tabId: this.props.tab.id, value: e.url }))
+        const url = e.url.replace('ipfs://', '/ipfs/')
+        this.props.dispatch(setTabSearch({ tabId: this.props.tab.id, value: url }))
+      })
+      ref.addEventListener('load-commit', e => {
+        if (!e.isMainFrame) return
+        const url = e.url.replace('ipfs://', '/ipfs/')
+        this.props.dispatch(setTabSearch({ tabId: this.props.tab.id, value: url }))
       })
       ref.addEventListener('did-stop-loading', e => {
         this.props.dispatch(setCanGoBack({ tabId: this.props.tab.id, value: ref.canGoBack() }))

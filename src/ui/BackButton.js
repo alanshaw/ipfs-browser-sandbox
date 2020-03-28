@@ -9,7 +9,7 @@ export default function BackButton () {
   return (
     <button
       type='button'
-      className='button-reset pa2 bw0 br2 outline-0 bg-transparent hover-bg-black-10'
+      className={`button-reset pa2 bw0 br2 outline-0 bg-transparent ${tab.canGoBack ? 'hover-bg-black-10' : ''}`}
       onClick={e => dispatch(goBack({ tabId: tab.id }))}
       disabled={!tab.canGoBack}
     >
