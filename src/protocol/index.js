@@ -22,18 +22,13 @@ async function create ({ ipfsProvider }) {
         return respond(errorResponse(500, err.message))
       }
 
-      // If there's more to resolve it means we're missing an IPLD format resolver
-      if (remainderPath) {
-        return respond(errorResponse(501, `missing IPLD format resolver ${cid.codec}`))
-      }
-
       if (!Responders[cid.codec]) {
         return respond(errorResponse(501, `missing responder for ${cid.codec}`))
       }
 
       let response
       try {
-        response = await Responders[cid.codec]({ ipfsProvider }, url, cid, node)
+        response = await Responders[cid.codec]({ ipfsProvider }, url, cid, remainderPath, node)
       } catch (err) {
         console.error(`failed to handle ${request.url} in ${Date.now() - start}ms`, err)
         return respond(errorResponse(err.statusCode || 500, err.message))

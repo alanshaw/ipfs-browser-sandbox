@@ -5,11 +5,12 @@ import * as FileType from 'file-type'
 import mime from 'mime-types'
 import Reader from 'it-reader'
 import toBuffer from 'it-buffer'
+import CID from 'cids'
 
 const INDEX_HTML_FILES = ['index.html', 'index.htm', 'index.shtml']
 const MINIMUM_BYTES = 4100
 
-export async function raw ({ ipfsProvider }, url, cid, buffer) {
+export async function raw ({ ipfsProvider }, url, cid, remainderPath, buffer) {
   const headers = { 'Content-Length': buffer.length }
 
   if (url.searchParams.has('filename')) {
@@ -31,7 +32,7 @@ export async function raw ({ ipfsProvider }, url, cid, buffer) {
   return { headers, data: toStream.readable(toBuffer(response.source)) }
 }
 
-export async function dagPb ({ ipfsProvider }, url, cid, node) {
+export async function dagPb ({ ipfsProvider }, url, cid, remainderPath, node) {
   let meta
   try {
     meta = Unixfs.unmarshal(node.Data)
@@ -75,9 +76,16 @@ export async function dagPb ({ ipfsProvider }, url, cid, node) {
   return { headers, data: toStream.readable(toBuffer(response.source)) }
 }
 
-export const dagCbor = ({ ipfsProvider }, url, cid, node) => ({
+export const dagCbor = ({ ipfsProvider }, url, cid, remainderPath, node) => ({
   headers: { 'Content-Type': 'application/json' },
-  data: toStream.readable([Buffer.from(JSON.stringify(node, null, 2))])
+  data: toStream.readable([Buffer.from(JSON.stringify(node, (key, value) => {
+    if (Object.prototype.toString.call(value) === '[object Object]') {
+      for (const [k, v] of Object.entries(value)) {
+        if (CID.isCID(v)) value[k] = { '/': v.toString() }
+      }
+    }
+    return value
+  }, 2))])
 })
 
 async function detectContentType (path, source) {

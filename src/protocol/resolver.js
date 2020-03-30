@@ -18,7 +18,7 @@ export default async function resolve ({ ipfsProvider }, url) {
     const { cid, remPath } = await resolveSource
     res.cid = cid
     res.remainderPath = remPath
-    res.node = (await ipfs.dag.get(cid)).value
+    res.node = (await ipfs.dag.get(cid, remPath)).value
   } else {
     for await (const { value, remainderPath } of resolveSource) {
       if (CID.isCID(value)) {
