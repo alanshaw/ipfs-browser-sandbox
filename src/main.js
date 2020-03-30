@@ -1,6 +1,6 @@
 import Electron, { BrowserWindow } from 'electron'
 import Path from 'path'
-import IPFS from 'ipfs'
+import IpfsProvider from './ipfs-provider'
 import * as Protocol from './protocol'
 import OS from 'os'
 import Package from '../package.json'
@@ -72,25 +72,29 @@ Electron.protocol.registerSchemesAsPrivileged([{
 }])
 
 async function onReady () {
-  // TODO: add delegates
-  const ipfs = await IPFS.create({
-    repo: Path.join(OS.homedir(), `.${Package.name}`),
-    config: {
-      Addresses: {
-        Swarm: [
-          '/ip4/0.0.0.0/tcp/0',
-          '/ip4/0.0.0.0/tcp/0/ws'
-        ]
+  const ipfsProvider = new IpfsProvider({
+    // TODO: add delegates
+    ipfsOptions: {
+      silent: true,
+      repo: Path.join(OS.homedir(), `.${Package.name}`),
+      config: {
+        Addresses: {
+          Swarm: [
+            '/ip4/0.0.0.0/tcp/0',
+            '/ip4/0.0.0.0/tcp/0/ws'
+          ]
+        }
       }
     }
   })
 
   Electron.ipcMain.handle('ipfs.swarm.addrs', async e => {
+    const ipfs = await ipfsProvider.provide()
     const addrs = await ipfs.swarm.addrs()
     return addrs.map(a => ({ ...a, addrs: a.addrs.map(ma => ma.toString()) }))
   })
 
-  const protocol = await Protocol.create({ ipfs })
+  const protocol = await Protocol.create({ ipfsProvider })
 
   Electron.protocol.registerStreamProtocol('ipfs', protocol.handler)
 

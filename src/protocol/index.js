@@ -4,7 +4,7 @@ import errorResponse from './error-response'
 
 const Responders = { raw, 'dag-cbor': dagCbor, 'dag-pb': dagPb }
 
-async function create ({ ipfs }) {
+async function create ({ ipfsProvider }) {
   return {
     // TODO: add timeout
     async handler (request, respond) {
@@ -12,7 +12,14 @@ async function create ({ ipfs }) {
       console.log(`handling ${request.url}`)
 
       const url = new URL(request.url)
-      const { cid, remainderPath, node } = await resolve({ ipfs }, url)
+      let cid, remainderPath, node
+
+      try {
+        ({ cid, remainderPath, node } = await resolve({ ipfsProvider }, url))
+      } catch (err) {
+        console.error(err)
+        return respond(errorResponse(500, err.message))
+      }
 
       // If there's more to resolve it means we're missing an IPLD format resolver
       if (remainderPath) {
@@ -23,7 +30,7 @@ async function create ({ ipfs }) {
         return respond(errorResponse(501, `missing responder for ${cid.codec}`))
       }
 
-      await Responders[cid.codec]({ ipfs }, url, cid, node, respond)
+      await Responders[cid.codec]({ ipfsProvider }, url, cid, node, respond)
       console.log(`handled ${request.url} in ${Date.now() - start}ms`)
     }
   }

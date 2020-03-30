@@ -10,7 +10,7 @@ import errorResponse from './error-response'
 const INDEX_HTML_FILES = ['index.html', 'index.htm', 'index.shtml']
 const MINIMUM_BYTES = 4100
 
-export async function raw ({ ipfs }, url, cid, buffer, respond) {
+export async function raw ({ ipfsProvider }, url, cid, buffer, respond) {
   const headers = { 'Content-Length': buffer.length }
 
   if (url.searchParams.has('filename')) {
@@ -33,7 +33,7 @@ export async function raw ({ ipfs }, url, cid, buffer, respond) {
   return respond({ headers, data: toStream.readable(toBuffer(response.source)) })
 }
 
-export async function dagPb ({ ipfs }, url, cid, node, respond) {
+export async function dagPb ({ ipfsProvider }, url, cid, node, respond) {
   let meta
   try {
     meta = Unixfs.unmarshal(node.Data)
@@ -47,6 +47,8 @@ export async function dagPb ({ ipfs }, url, cid, node, respond) {
   if (url.searchParams.has('filename')) {
     headers['Content-Disposition'] = `inline; filename*=UTF-8''${encodeURIComponent(url.searchParams.get('filename'))}`
   }
+
+  const ipfs = await ipfsProvider.provide()
 
   if (meta.type.includes('directory')) {
     for (const fileName of INDEX_HTML_FILES) {
@@ -77,7 +79,7 @@ export async function dagPb ({ ipfs }, url, cid, node, respond) {
   return respond({ headers, data: toStream.readable(toBuffer(response.source)) })
 }
 
-export async function dagCbor ({ ipfs }, url, cid, node, respond) {
+export async function dagCbor ({ ipfsProvider }, url, cid, node, respond) {
   respond({
     headers: { 'Content-Type': 'application/json' },
     data: toStream.readable([Buffer.from(JSON.stringify(node, null, 2))])
