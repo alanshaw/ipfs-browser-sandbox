@@ -1,8 +1,9 @@
+import toStream from 'it-to-stream'
 import resolve from './resolver'
 import { raw, dagCbor, dagPb } from './responders'
-import errorResponse from './error-response'
 
 const Responders = { raw, 'dag-cbor': dagCbor, 'dag-pb': dagPb }
+const errorResponse = (statusCode, message) => ({ statusCode, data: toStream.readable([Buffer.from(message)]) })
 
 async function create ({ ipfsProvider }) {
   return {
@@ -30,7 +31,15 @@ async function create ({ ipfsProvider }) {
         return respond(errorResponse(501, `missing responder for ${cid.codec}`))
       }
 
-      await Responders[cid.codec]({ ipfsProvider }, url, cid, node, respond)
+      let response
+      try {
+        response = await Responders[cid.codec]({ ipfsProvider }, url, cid, node)
+      } catch (err) {
+        console.error(`failed to handle ${request.url} in ${Date.now() - start}ms`, err)
+        return respond(errorResponse(err.statusCode || 500, err.message))
+      }
+
+      respond(response)
       console.log(`handled ${request.url} in ${Date.now() - start}ms`)
     }
   }
