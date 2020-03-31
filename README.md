@@ -17,7 +17,13 @@ It's also **not secure** and may be partly or entirely broken. Use at your own r
 
 ## Install
 
-There are currently no binaries available for download. You must build the project from source. Good news though, it's easy!
+### Prebuilt packages
+
+Check out the [releases page](https://github.com/alanshaw/ipfs-browser-sandbox/releases) for prebuilt packages.
+
+### From Source
+
+If there's no prebuilt package for your system, you can always build from source. Good news, it's easy!
 
 ```console
 git clone https://github.com/alanshaw/ipfs-browser-sandbox.git
