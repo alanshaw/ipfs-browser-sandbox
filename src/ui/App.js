@@ -2,6 +2,7 @@ import React from 'react'
 import { Tabs } from './Tabs'
 import Toolbar from './Toolbar'
 import { Page } from './Page'
+import TargetUrlIndicator from './TargetUrlIndicator'
 
 function App () {
   return (
@@ -12,6 +13,7 @@ function App () {
       </div>
       <div className='flex-auto'>
         <Page />
+        <TargetUrlIndicator />
       </div>
     </div>
   )

@@ -15,6 +15,7 @@ export const slice = createSlice({
         id: state.selectedTabId,
         title: 'New Tab',
         url: null,
+        targetUrl: null,
         search: null,
         canGoBack: false,
         canGoForward: false,
@@ -70,6 +71,11 @@ export const slice = createSlice({
       if (index === -1) return
       state.list[index] = { ...state.list[index], url: action.payload.value }
     },
+    setTabTargetUrl: (state, action) => {
+      const index = state.list.findIndex(t => t.id === action.payload.tabId)
+      if (index === -1) return
+      state.list[index] = { ...state.list[index], targetUrl: action.payload.value }
+    },
     changeSelectedTab: (state, action) => {
       if (!state.list.some(t => t.id === action.payload.id)) return
       state.selectedTabId = action.payload.id
@@ -88,6 +94,7 @@ export const {
   setTabTitle,
   setTabSearch,
   setTabUrl,
+  setTabTargetUrl,
   changeSelectedTab
 } = slice.actions
 
