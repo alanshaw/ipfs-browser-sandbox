@@ -35,6 +35,7 @@
     "buffer": "^5.5.0",
     "cids": "^0.8.0",
     "file-type": "^14.1.4",
+    "filesize": "^6.1.0",
     "ipfs": "^0.41.2",
     "ipfs-http-client": "^42.0.1-rc.5616",
     "ipfs-unixfs": "^1.0.0",

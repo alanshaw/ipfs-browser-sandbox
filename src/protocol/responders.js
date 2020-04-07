@@ -6,6 +6,7 @@ import mime from 'mime-types'
 import Reader from 'it-reader'
 import toBuffer from 'it-buffer'
 import CID from 'cids'
+import Directory from './directory'
 
 const INDEX_HTML_FILES = ['index.html', 'index.htm', 'index.shtml']
 const MINIMUM_BYTES = 4100
@@ -19,7 +20,7 @@ export async function raw ({ ipfsProvider }, url, cid, remainderPath, buffer) {
 
   let response
   try {
-    response = await detectContentType(url.pathname, [buffer])
+    response = await detectContentType(url, [buffer])
   } catch (err) {
     throw Object.assign(err, { message: `failed to detect content type: ${err.message}` })
   }
@@ -49,21 +50,29 @@ export async function dagPb ({ ipfsProvider }, url, cid, remainderPath, node) {
   const ipfs = await ipfsProvider.provide()
 
   if (meta.type.includes('directory')) {
+    if (!url.pathname.endsWith('/')) {
+      url.pathname += '/'
+      // FIXME: redirects do not work
+      // return { statusCode: 301, headers: { Location: url.toString() } }
+      return { data: toStream.readable([Buffer.from(`<script>window.location='${url}'</script>`)]) }
+    }
+
+    headers['Content-Type'] = 'text/html'
+
     for (const fileName of INDEX_HTML_FILES) {
       try {
         const stats = await ipfs.files.stat(`/ipfs/${cid}/${fileName}`)
-        headers['Content-Type'] = 'text/html'
         return { headers, data: toStream.readable(ipfs.cat(stats.cid)) }
       } catch (_) {}
     }
 
-    // TODO render directory
-    throw Object.assign(new Error('directory renderer not yet implemented'), { statusCode: 501 })
+    const path = `/ipfs/${url.hostname}${url.pathname}`
+    return { headers, data: toStream.readable(Directory.render(path, ipfs.ls(cid))) }
   }
 
   let response
   try {
-    response = await detectContentType(url.pathname, ipfs.cat(cid))
+    response = await detectContentType(url, ipfs.cat(cid))
   } catch (err) {
     throw Object.assign(err, { message: `failed to detect content type: ${err.message}` })
   }
@@ -88,7 +97,7 @@ export const dagCbor = ({ ipfsProvider }, url, cid, remainderPath, node) => ({
   }, 2))])
 })
 
-async function detectContentType (path, source) {
+async function detectContentType (url, source) {
   // try to guess the filetype based on the first bytes
   try {
     const reader = Reader(source)
@@ -113,6 +122,10 @@ async function detectContentType (path, source) {
     source = [err.buffer] // these are the bytes that were read (if any)
   }
 
+  const filePath = ['', '/'].includes(url.pathname)
+    ? url.searchParams.get('filename')
+    : url.pathname
+
   // if we were unable to, fallback to the `path` which might contain the extension
-  return { source, contentType: mime.contentType(mime.lookup(path)) }
+  return { source, contentType: mime.contentType(mime.lookup(filePath)) }
 }
