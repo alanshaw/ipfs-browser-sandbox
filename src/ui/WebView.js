@@ -29,12 +29,12 @@ export class WebView extends Component {
         this.props.dispatch(setTabTitle({ tabId: this.props.tab.id, value: e.title }))
       })
       ref.addEventListener('will-navigate', e => {
-        const url = e.url.replace('ipfs://', '/ipfs/')
+        const url = decodeURI(e.url).replace('ipfs://', '/ipfs/')
         this.props.dispatch(setTabSearch({ tabId: this.props.tab.id, value: url }))
       })
       ref.addEventListener('load-commit', e => {
         if (!e.isMainFrame) return
-        const url = e.url.replace('ipfs://', '/ipfs/')
+        const url = decodeURI(e.url).replace('ipfs://', '/ipfs/')
         this.props.dispatch(setTabSearch({ tabId: this.props.tab.id, value: url }))
       })
       ref.addEventListener('did-stop-loading', e => {
