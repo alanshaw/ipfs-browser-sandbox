@@ -18,7 +18,7 @@ store.dispatch(openTab())
 // See preload.js!
 window.ipfs.enable().then(ipfs => {
   setTimeout(async function update () {
-    const peers = await ipfs.swarm.addrs()
+    const peers = await ipfs.swarm.peers()
     store.dispatch(updatePeers(peers))
     setTimeout(update, 5000)
   }, 5000)

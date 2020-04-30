@@ -88,10 +88,10 @@ async function onReady () {
     }
   })
 
-  Electron.ipcMain.handle('ipfs.swarm.addrs', async e => {
+  Electron.ipcMain.handle('ipfs.swarm.peers', async e => {
     const ipfs = await ipfsProvider.provide()
-    const addrs = await ipfs.swarm.addrs()
-    return addrs.map(a => ({ ...a, addrs: a.addrs.map(ma => ma.toString()) }))
+    const peers = await ipfs.swarm.peers()
+    return peers.map(p => ({ ...p, addr: p.addr.toString() }))
   })
 
   const protocol = await Protocol.create({ ipfsProvider })
