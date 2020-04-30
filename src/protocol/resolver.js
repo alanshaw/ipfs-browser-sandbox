@@ -6,12 +6,12 @@ export default async function resolve ({ ipfsProvider }, url) {
 
   const res = {
     cid: new CID(cid),
-    remainderPath: path.startsWith('/') ? path.slice(1) : path,
+    remainderPath: decodeURIComponent(path.startsWith('/') ? path.slice(1) : path),
     node: null
   }
 
   const ipfs = await ipfsProvider.provide()
-  const resolveSource = ipfs.dag.resolve(cid, path)
+  const resolveSource = ipfs.dag.resolve(cid, decodeURIComponent(path))
 
   // FIXME: ipfs-http-client and ipfs return different things 😱
   if (resolveSource.then) {
