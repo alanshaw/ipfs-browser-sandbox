@@ -34,7 +34,7 @@
     "@reduxjs/toolkit": "^1.2.5",
     "buffer": "^5.5.0",
     "cids": "^0.8.0",
-    "file-type": "^14.1.4",
+    "file-type": "^16.5.4",
     "filesize": "^6.1.0",
     "ipfs": "^0.43.1",
     "ipfs-http-client": "^44.0.1",
