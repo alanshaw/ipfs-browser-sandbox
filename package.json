@@ -36,7 +36,7 @@
     "cids": "^0.8.0",
     "file-type": "^14.1.4",
     "filesize": "^6.1.0",
-    "ipfs": "^0.43.1",
+    "ipfs": "^0.66.0",
     "ipfs-http-client": "^44.0.1",
     "ipfs-unixfs": "^1.0.0",
     "is-ipfs": "^1.0.3",
